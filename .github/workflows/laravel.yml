@@ -23,6 +23,5 @@ jobs:
              docker-compose exec web php artisan migrate --force &&\
              docker-compose exec web php artisan db:seed --force &&\
              docker-compose exec web php artisan storage:link &&\
-             docker-compose restart
       - name: Run tests
-        run: vendor/bin/phpunit
+        run: docker-compose exec web vendor/bin/phpunit
