@@ -16,13 +16,13 @@ jobs:
       - name: Run docker-compose
         run: |
              docker-compose up -d
-             docker-compose exec web chown -R www-data bootstrap/cache/ 
-             docker-compose exec web chown -R www-data storage/
-             docker-compose exec web composer install
-             docker-compose exec web php artisan key:generate
-             docker-compose exec web php artisan config:clear
-             docker-compose exec web php artisan migrate --force
-             docker-compose exec web php artisan db:seed --force
-             docker-compose exec web php artisan storage:link
+             docker exec web chown -R www-data bootstrap/cache/ 
+             docker exec web chown -R www-data storage/
+             docker exec web composer install
+             docker exec web php artisan key:generate
+             docker exec web php artisan config:clear
+             docker exec web php artisan migrate --force
+             docker exec web php artisan db:seed --force
+             docker exec web php artisan storage:link
       - name: Run tests
-        run: docker-compose exec web vendor/bin/phpunit
+        run: docker exec web vendor/bin/phpunit
