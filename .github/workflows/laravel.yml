@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Copy .env
-        run: php -r "file_exists('.env') || copy('dockerize/dev-env', '.env');"
+        run: php -r "file_exists('.env') || copy('dockerize/.dev-env', '.env');"
       - name: Build image
         run: docker-compose build web
       - name: Install Dependencies
