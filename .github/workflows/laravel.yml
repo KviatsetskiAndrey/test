@@ -2,7 +2,7 @@ name: Rokes Tests
 
 on:
   pull_request:
-      types: opened, edited
+      types: [opened, edited]
       branch: master
 jobs:
   laravel-tests:
