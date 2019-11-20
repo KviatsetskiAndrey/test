@@ -16,6 +16,7 @@ jobs:
       - name: Run docker-compose
         run: |
              docker-compose up -d
+             docker ps
              docker-compose exec web chown -R www-data bootstrap/cache/ 
              docker-compose exec web chown -R www-data storage/
              docker-compose exec web composer install
