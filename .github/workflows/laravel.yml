@@ -16,13 +16,14 @@ jobs:
       - name: Run docker-compose
         run: |
              docker-compose up -d
-             docker exec gftd-exchange-web chown -R www-data bootstrap/cache/ 
-             docker exec gftd-exchange-web chown -R www-data storage/
-             docker exec gftd-exchange-web composer install
-             docker exec gftd-exchange-web php artisan key:generate
-             docker exec gftd-exchange-web php artisan config:clear
-             docker exec gftd-exchange-web php artisan migrate --force
-             docker exec gftd-exchange-web php artisan db:seed --force
-             docker exec gftd-exchange-web php artisan storage:link
+             docker-compose exec web chown -R www-data bootstrap/cache/ 
+             docker-compose exec web chown -R www-data storage/
+             docker-compose exec web composer install
+             docker-compose exec web php artisan key:generate
+             docker-compose exec web php artisan config:clear
+             docker-compose exec web php artisan migrate --force
+             docker-compose exec web php artisan db:seed --force
+             docker-compose exec web php artisan storage:link
+             docker-compose restart
       - name: Run tests
-        run: docker exec gftd-exchange-web vendor/bin/phpunit
+        run: docker-compose exec web vendor/bin/phpunit
