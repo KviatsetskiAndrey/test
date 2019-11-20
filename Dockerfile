@@ -7,7 +7,7 @@ RUN apt-get update && \
   build-essential \
   nginx \
   ruby-full \
-  mysql-client \
+  default-mysql-client \
   libpng-dev \
   libjpeg62-turbo-dev \
   libfreetype6-dev \
