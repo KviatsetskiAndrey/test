@@ -7,7 +7,7 @@ services:
       context: .
       cache_from:
         - web-gftd-exchange:latest
-    #entrypoint: /var/www/entrypoint.sh
+# entrypoint: /var/www/entrypoint.sh
     depends_on:
       - mysql
       - redis
@@ -21,14 +21,13 @@ services:
       - ./:/var/www
 #      - /etc/letsencrypt:/etc/letsencrypt
     ports:
-       - "80:80"
+       - "81:81"
 #      - "443:443"
     command: bash -c "foreman start -f Procfile"
     tty: true
     stdin_open: true
     links:
       - mysql:mysql
-
   mysql:
     image: mysql:5.7
     container_name: gftd-exchange-mysql
