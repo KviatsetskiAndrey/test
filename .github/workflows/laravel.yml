@@ -2,7 +2,7 @@ name: Rokes Tests
 
 on:
   pull_request:
-      types: [opened, edited]
+      types: opened
       branch: master
 jobs:
   laravel-tests:
@@ -17,14 +17,14 @@ jobs:
         run: |
              docker-compose up -d
              docker ps
-             docker-compose exec web chown -R www-data bootstrap/cache/ 
-             docker-compose exec web chown -R www-data storage/
-             docker-compose exec web composer install
-             docker-compose exec web php artisan key:generate
-             docker-compose exec web php artisan config:clear
-             docker-compose exec web php artisan migrate --force
-             docker-compose exec web php artisan db:seed --force
-             docker-compose exec web php artisan storage:link
+             docker-compose exec -T web chown -R www-data bootstrap/cache/ 
+             docker-compose exec -T web chown -R www-data storage/
+             docker-compose exec -T web composer install
+             docker-compose exec -T web php artisan key:generate
+             docker-compose exec -T web php artisan config:clear
+             docker-compose exec -T web php artisan migrate --force
+             docker-compose exec -T web php artisan db:seed --force
+             docker-compose exec -T web php artisan storage:link
              docker-compose restart
       - name: Run tests
-        run: docker-compose exec web vendor/bin/phpunit
+        run: docker-compose exec -T web vendor/bin/phpunit
