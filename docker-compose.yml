@@ -20,7 +20,7 @@ services:
       - ./dockerize/nginx_app.conf:/etc/nginx/sites-enabled/app.conf
       - ./:/var/www
     ports:
-      - "80:80"
+      - "81:81"
     command: bash -c "foreman start -f Procfile"
     tty: true
     stdin_open: true
