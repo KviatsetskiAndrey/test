@@ -4,7 +4,7 @@ services:
     image:  gftd-exchange-web:latest
     container_name: gftd-exchange-web
     build:
-      context: .
+      context: ../
       cache_from:
         - web-gftd-exchange:latest
 #   entrypoint: /var/www/entrypoint.sh
