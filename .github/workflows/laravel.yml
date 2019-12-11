@@ -27,4 +27,4 @@ jobs:
              docker-compose exec -T web php artisan storage:link
              docker-compose restart
       - name: Run tests
-        run: docker-compose -T exec web vendor/bin/phpunit
+        run: docker-compose exec -T web vendor/bin/phpunit
