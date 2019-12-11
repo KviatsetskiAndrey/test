@@ -12,7 +12,7 @@ jobs:
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('dockerize/.env-dev', '.env');"
       - name: Build image
-        run: docker-compose build web
+        run: docker-compose -f dockerize/docker-compose.yml build web
       - name: Run docker-compose
         run: |
              docker-compose up -d
