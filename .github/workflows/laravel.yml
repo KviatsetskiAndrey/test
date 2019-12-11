@@ -3,7 +3,7 @@ name: Rokes Tests
 on:
   pull_request:
       types: opened
-      branch: master
+      branch: release
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
@@ -12,7 +12,7 @@ jobs:
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('dockerize/.env-dev', '.env');"
       - name: Build image
-        run: docker-compose -f dockerize/docker-compose.yml build web
+        run: docker-compose -f dockerize/docker-compose-test.yml build web
       - name: Run docker-compose
         run: |
              docker-compose up -d
@@ -27,4 +27,4 @@ jobs:
              docker-compose exec -T web php artisan storage:link
              docker-compose restart
       - name: Run tests
-        run: docker-compose exec -T web vendor/bin/phpunit
+        run: docker-compose -T exec web vendor/bin/phpunit
