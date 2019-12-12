@@ -4,7 +4,7 @@ services:
     image:  gftd-exchange-web:latest
     container_name: gftd-exchange-web
     build:
-      context: .
+      context: ../
       cache_from:
         - web-gftd-exchange:latest
     #entrypoint: /var/www/entrypoint.sh
@@ -13,22 +13,18 @@ services:
       - redis
     restart: always
     env_file:
-      - ./.env
+      - ../.env
     working_dir: /var/www
     volumes:
-      - ./dockerize/local.ini:/usr/local/etc/php/conf.d/local.ini
-      - ./dockerize/nginx_app.conf:/etc/nginx/sites-enabled/app.conf
-      - ./:/var/www
-#      - /etc/letsencrypt:/etc/letsencrypt
+      - ./local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./nginx_app.conf:/etc/nginx/sites-enabled/app.conf
+      - ../:/var/www
     ports:
-      - "80:80"
-#      - "443:443"
-    command: bash -c "foreman start -f Procfile"
+      - "81:81"
     tty: true
     stdin_open: true
     links:
       - mysql:mysql
-
   mysql:
     image: mysql:5.7
     container_name: gftd-exchange-mysql
@@ -42,7 +38,7 @@ services:
     volumes:
       - mysql-volume:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "3307:3307"
   redis:
     image: "redis:alpine"
     container_name: gftd-exchange-redis

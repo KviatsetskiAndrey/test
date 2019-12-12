@@ -3,26 +3,28 @@ name: Rokes Tests
 on:
   pull_request:
       types: opened
-      branch: master
+      branch: release
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - name: Copy .env
-        run: php -r "file_exists('.env') || copy('dockerize/dev-env', '.env');"
+        run: php -r "file_exists('.env') || copy('dockerize/.env-dev', '.env');"
       - name: Build image
-      - run: docker-compose build web
-      - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
-      - name: Generate key
-        run: php artisan key:generate
-      - name: Create Database
+        run: docker-compose -f dockerize/docker-compose-test.yml build web
+      - name: Run docker-compose
         run: |
-          mkdir -p database
-          touch database/database.sqlite
-      - name: Execute tests (Unit and Feature tests) via PHPUnit
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
-        run: vendor/bin/phpunit
+             docker-compose -f dockerize/docker-compose-test.yml up -d
+             docker ps
+             docker-compose -f dockerize/docker-compose-test.yml exec -T web chown -R www-data bootstrap/cache/ 
+             docker-compose -f dockerize/docker-compose-test.yml exec -T web chown -R www-data storage/
+             docker-compose -f dockerize/docker-compose-test.yml exec -T web composer install
+             docker-compose -f dockerize/docker-compose-test.yml exec -T web php artisan key:generate
+             docker-compose -f dockerize/docker-compose-test.yml exec -T web php artisan config:clear
+             docker-compose -f dockerize/docker-compose-test.yml exec -T web php artisan migrate --force
+             docker-compose -f dockerize/docker-compose-test.yml exec -T web php artisan db:seed --force
+             docker-compose -f dockerize/docker-compose-test.yml exec -T web php artisan storage:link
+             docker-compose -f dockerize/docker-compose-test.yml restart
+      - name: Run tests
+        run: docker-compose exec -T web vendor/bin/phpunit
