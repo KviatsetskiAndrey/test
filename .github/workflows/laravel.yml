@@ -15,7 +15,7 @@ jobs:
         run: docker-compose -f dockerize/docker-compose-test.yml build web
       - name: Run docker-compose
         run: |
-             docker-compose up -d
+             docker-compose -f dockerize/docker-compose-test.yml up -d
              docker ps
              docker-compose exec -T web chown -R www-data bootstrap/cache/ 
              docker-compose exec -T web chown -R www-data storage/
